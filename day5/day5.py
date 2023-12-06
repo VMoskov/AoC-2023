@@ -4,7 +4,7 @@ import re
 def part1():
     seeds = []
     locations = []
-    almanac = [line for line in open("day5_example.txt", "r").read().splitlines() if line]
+    almanac = [line for line in open("day5_input.txt", "r").read().splitlines() if line]
     data = {}
 
     for index, line in enumerate(almanac):
@@ -97,4 +97,4 @@ def calculate_property(data, map_type, value):
 
 if __name__ == "__main__":
     part1()
-    # part2()
+    part2()
