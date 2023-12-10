@@ -16,7 +16,7 @@ def part1():
         if types[key]:
             order += [pair[1] for pair in sorted(types[key], key=sort_cards_1)]
 
-    order = list(reversed(order))
+    order.reverse()
     print(f"Part1: {sum([(i+1)*order[i] for i in range(len(order))])}")
 
 
@@ -35,7 +35,7 @@ def part2():
         if types[key]:
             order += [pair[1] for pair in sorted(types[key], key=sort_cards_2)]
 
-    order = list(reversed(order))
+    order.reverse()
     print(f"Part2: {sum([(i + 1) * order[i] for i in range(len(order))])}")
 
 
