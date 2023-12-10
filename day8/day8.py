@@ -41,7 +41,6 @@ def parse_nodes():
             continue
         if index == 0:
             instructions = line.strip()
-            index += 1
             continue
 
         node = re.findall(r"(\w+)\s+=\s+\((\w+),\s+(\w+)\)", line.strip())[0]
