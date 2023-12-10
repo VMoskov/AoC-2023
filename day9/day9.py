@@ -37,7 +37,7 @@ def get_history_differences(line):
         difference = find_differences(differences[-1]) if differences else find_differences(history)
         differences.append(difference)
         if sum(difference) == 0:
-            differences = list(reversed(differences))
+            differences.reverse()
             break
 
     return history, differences
