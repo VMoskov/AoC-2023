@@ -1,36 +1,23 @@
 import re
+from math import gcd
 
 
 def part1():
-    steps = 0
     nodes, instructions = parse_nodes()
     state = "AAA"
-
-    while True:
-        for instruction in instructions:
-            side = 0 if instruction == "L" else 1
-            state = nodes[state][side]
-            steps += 1
-            if state == "ZZZ":
-                print(f"Part1: {steps}")
-                exit(0)
+    print(f"Part1: {count_steps(nodes, state, instructions, part=1)}")
 
 
 def part2():
-    steps = 0
     nodes, instructions = parse_nodes()
+    states = [state for state in nodes if state.endswith("A")]
+    states_steps = [count_steps(nodes, state, instructions, part=2) for state in states]
 
-    states = [state for state in nodes if state[-1] == "A"]
+    lcm = states_steps[0]
+    for i in states_steps[1:]:
+        lcm = lcm * i // gcd(lcm, i)
 
-    while True:
-        for instruction in instructions:
-            side = 0 if instruction == "L" else 1
-            states = [nodes[state][side] for state in states]
-            steps += 1
-            z = [state for state in states if state[-1] == "Z"]
-            if len(z) == len(states):
-                print(f"Part2: {steps}")
-                exit(0)
+    print(f"Part2: {lcm}")
 
 
 def parse_nodes():
@@ -47,6 +34,18 @@ def parse_nodes():
         nodes[node[0]] = (node[1], node[2])
 
     return nodes, instructions
+
+
+def count_steps(nodes, state, instructions, part):
+    steps = 0
+
+    while True:
+        for instruction in instructions:
+            side = 0 if instruction == "L" else 1
+            state = nodes[state][side]
+            steps += 1
+            if (part == 2 and state.endswith("Z")) or (part == 1 and state == "ZZZ"):
+                return steps
 
 
 if __name__ == "__main__":
