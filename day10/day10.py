@@ -5,22 +5,34 @@ def part1():
         if line.__contains__("S"):
             S = (index, line.index("S"))
 
+    coordinates = []
     previous_position = S
     current_position = S
+    coordinates.append(current_position)
     neighbours = find_neighbours(landscape, S)
     step = next_step(neighbours, current_position, previous_position, landscape[current_position[0]][current_position[1]])
     current_position = make_a_step(current_position, step)
     steps = 1
 
     while current_position != S:
+        coordinates.append(current_position)
         neighbours = find_neighbours(landscape, current_position)
         step = next_step(neighbours, current_position, previous_position, landscape[current_position[0]][current_position[1]])
         previous_position = current_position
         current_position = make_a_step(current_position, step)
         steps += 1
 
-    print(f"Part1: {int(steps/2 if steps % 2 == 0 else steps/2 + 1)}")
+    area = shoelace_formula(coordinates)
+    i = picks_theorem(area, len(coordinates))
 
+    print(f"Part1: {int(steps / 2 if steps % 2 == 0 else steps / 2 + 1)}")
+    return coordinates
+
+
+def part2(coordinates):
+    area = shoelace_formula(coordinates)
+    i = picks_theorem(area, len(coordinates))
+    print(f"Part2: {i}")
 
 def find_neighbours(landscape, current_position):
     i, j = current_position
@@ -70,6 +82,26 @@ def make_a_step(current_position, step):
     return current_position[0] + step[0], current_position[1] + step[1]
 
 
+def shoelace_formula(coordinates):
+    """
+    https://en.wikipedia.org/wiki/Shoelace_formula
+    """
+    n = len(coordinates)
+    sum1 = 0
+    sum2 = 0
+    for i in range(n):
+        sum1 += coordinates[i][0] * coordinates[(i + 1) % n][1]
+        sum2 += coordinates[i][1] * coordinates[(i + 1) % n][0]
+    return abs(sum1 - sum2) / 2
+
+
+def picks_theorem(area, boundary_points):
+    """
+    https://en.wikipedia.org/wiki/Pick%27s_theorem
+    """
+    return int(area - boundary_points / 2) + 1
+
+
 if __name__ == '__main__':
-    part1()
-    # part2()
+    coordinates = part1()
+    part2(coordinates)
