@@ -12,7 +12,7 @@ def part1():
 
 def part2():
     calibration_values = []
-    for line in open("./day1_input.txt"):
+    for line in open("day1_input.txt"):
         line = (line.replace("one", "o1e").replace("two", "t2o").replace("three", "th3ee")
                 .replace("four", "f4ur").replace("five", "f5ve").replace("six", "s6x")
                 .replace("seven", "se7en").replace("eight", "ei8ht").replace("nine", "n9ne"))
